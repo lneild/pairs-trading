@@ -1,0 +1,19 @@
+# config.yml
+tickers:
+  universe: ['MSFT', 'AAPL', 'GOOG', 'AMZN',
+             'XOM', 'CVX', 'JPM', 'BAC',
+             'KO', 'PEP', 'SPY', 'QQQ',
+             'DAL', 'UAL', 'T', 'VZ']
+  pair:    ['XOM','CVX']        # fallback if no scanning
+data:
+  start: '2020-01-01'
+  end:   '2025-06-01'
+  interval: '1d'
+strategy:
+  lookback: 60
+  z_enter:  2.0
+  z_exit:   0.5
+backtest:
+  tc_per_trade: 0.001            # 0.1% round-trip cost
+pair_selection:
+  p_thresh: 0.10  
