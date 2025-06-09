@@ -26,3 +26,6 @@ Hedge Ratio: This number comes from the regression (𝑦 ≈ 𝛽𝑥). In pract
 
 * Buy 1 share of y (the first ticker in your pair), and
 * Short 1.4865 shares of x (the second ticker).
+
+`poetry run python backtest.py`
+example output: Final cumulative P&L: -9.82 --> over your entire backtest period, the strategy would have lost $9.82 per “unit” of notional traded

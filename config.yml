@@ -5,15 +5,21 @@ tickers:
              'KO', 'PEP', 'SPY', 'QQQ',
              'DAL', 'UAL', 'T', 'VZ']
   pair:    ['XOM','CVX']        # fallback if no scanning
+
 data:
-  start: '2020-01-01'
-  end:   '2025-06-01'
+  start:    '2020-01-01'
+  end:      '2025-06-01'
   interval: '1d'
+
 strategy:
-  lookback: 60
-  z_enter:  2.0
-  z_exit:   0.5
+  lookback:     30  
+  z_enter:      1.0 
+  z_exit:       0.3  
+  min_vol:      0.02      # only trade when spread σ > 2%
+  max_holding:  10        # force exit after 10 days to cut losers
+
 backtest:
-  tc_per_trade: 0.001            # 0.1% round-trip cost
+  tc_per_trade: 0.0005    # assume 0.05% round-trip costs  
+
 pair_selection:
-  p_thresh: 0.10  
+  p_thresh:     0.15      # a bit looser to capture more pairs
