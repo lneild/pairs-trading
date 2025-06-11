@@ -1,25 +1,21 @@
-# config.yml
-tickers:
-  universe: ['MSFT', 'AAPL', 'GOOG', 'AMZN',
-             'XOM', 'CVX', 'JPM', 'BAC',
-             'KO', 'PEP', 'SPY', 'QQQ',
-             'DAL', 'UAL', 'T', 'VZ']
-  pair:    ['XOM','CVX']        # fallback if no scanning
-
-data:
-  start:    '2020-01-01'
-  end:      '2025-06-01'
-  interval: '1d'
-
 strategy:
-  lookback:     30  
-  z_enter:      1.0 
-  z_exit:       0.3  
-  min_vol:      0.02      # only trade when spread σ > 2%
-  max_holding:  10        # force exit after 10 days to cut losers
-
+  lookback: 20
+  z_enter: 2.0
+  z_exit: 0.5
+  min_vol: 0.02
+  max_holding: 10
+data:
+  start: '2020-01-01'  # Wider range for testing
+  end: '2025-06-10'
+  interval: '1d'
+  min_vol: 100000  # Minimum daily volume per stock
+tickers:
+  universe: ['XOM', 'CVX', 'BP', 'SHEL', 'VLO', 'PSX', 'MPC', 'JPM', 'BAC', 'WFC', 'AAPL', 'MSFT', 'GOOGL']
+  pair: ['XOM', 'CVX']
 backtest:
-  tc_per_trade: 0.0005    # assume 0.05% round-trip costs  
-
+  tc_per_trade: 0.0005  # 0.05% round-trip costs
+  stop_loss: -0.05  # 5% stop-loss per trade
 pair_selection:
-  p_thresh:     0.15      # a bit looser to capture more pairs
+  p_thresh: 0.05
+  corr_thresh: 0.7
+  vol_thresh: 1000000

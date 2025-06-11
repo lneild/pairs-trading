@@ -5,13 +5,19 @@ import pandas as pd
 
 def sharpe(returns, freq=252):
     """Annualized Sharpe ratio of daily return Series"""
-    return np.sqrt(freq) * returns.mean() / returns.std()
+    std = returns.std()
+    if std == 0 or np.isnan(std):
+        return np.nan
+    return np.sqrt(freq) * returns.mean() / std
 
 
 def max_drawdown(cum_returns):
     """Worst peak-to-trough drawdown"""
+    cum_returns = cum_returns.dropna()  # Remove NaN values
+    if cum_returns.empty or cum_returns.std() == 0:
+        return 0.0  # Return 0 if no valid data or flat line
     peak = cum_returns.cummax()
-    drawdown = (cum_returns - peak) / peak
+    drawdown = (cum_returns - peak) / peak.replace(0, 1e-10)  # Avoid division by zero
     return drawdown.min()
 
 
@@ -26,7 +32,9 @@ def trade_stats(returns, signals):
     # identify periods in trade
     df['in_trade'] = df['position'] != 0
     # mark new trades when in_trade starts
-    df['trade_id'] = (df['in_trade'] & ~df['in_trade'].shift(1).fillna(False)).cumsum()
+    shifted = df['in_trade'].shift(1)
+    shifted = (~shifted.isna() & shifted).astype(bool)
+    df['trade_id'] = (df['in_trade'] & ~shifted).cumsum()
     # filter only periods within trades
     trade_returns = df[df['in_trade']].groupby('trade_id')['returns'].sum()
     num_trades = trade_returns.shape[0]
